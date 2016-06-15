@@ -83,6 +83,16 @@ var Barix = (function () {
         }
         return hasClass;
     };
+    /**********************************************************
+     * .each(callback)
+     *********************************************************/
+    Barix.prototype.each = function (callback) {
+        var c;
+        for (var i = 0; i < this.elems.length; i++) {
+            c = callback.bind(this.elems[i]); //so that this=element
+            c(i, this.elems[i]); //param1=index, param2=element=this
+        }
+    };
     return Barix;
 }());
 var bx = Barix.select;
