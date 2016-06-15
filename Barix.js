@@ -105,7 +105,22 @@ var Barix = (function () {
             c = callback.bind(this.elems[i]); //so that this=element
             c(i, this.elems[i]); //param1=index, param2=element=this
         }
+        return this;
+    };
+    /***********************************************************
+    * .css({styleNameValuePairObject})
+    ************************************************************/
+    Barix.prototype.css = function (styleObj) {
+        var el;
+        for (var i = 0; i < this.elems.length; i++) {
+            el = this.elems[i];
+            for (var key in styleObj) {
+                el.style[key] = styleObj[key];
+            }
+        }
+        return this;
     };
     return Barix;
 }());
 var bx = Barix.select;
+//# sourceMappingURL=barix.js.map

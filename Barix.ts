@@ -112,8 +112,9 @@ class Barix {
 			}
 		}
 		return hasClass;
-	}
-	
+    }
+
+    	
 	/**********************************************************
 	 * .each(callback)
 	 *********************************************************/
@@ -122,9 +123,25 @@ class Barix {
 		for (let i=0; i< this.elems.length; i++) {
 			c = callback.bind(this.elems[i]);		//so that this=element
 			c(i, this.elems[i]);				//param1=index, param2=element=this
-		}
-	}
-	
+        }
+        return this;
+    }
+
+
+    /***********************************************************
+    * .css({styleNameValuePairObject})
+    ************************************************************/
+    public css(styleObj: any) {
+        let el: HTMLElement;
+        for (let i = 0; i < this.elems.length; i++) {
+            el = this.elems[i] as HTMLElement;
+            for (let key in styleObj) {
+                el.style[key] = styleObj[key];
+            }
+        }
+        return this;
+    }
+
 }
 
 var bx = Barix.select;
