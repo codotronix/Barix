@@ -1,9 +1,14 @@
 class Barix {
 	elems:Array<Element>;
-	
+
+    /**********************************************************
+	 * constructor
+	 *********************************************************/
 	constructor (elems:Array<Element>) {
 		this.elems = elems;
-	}
+    }
+    ///////////////////////////////////////////////////////////
+
 	
 	/**********************************************************
 	 * create a jquery like selector
@@ -27,7 +32,8 @@ class Barix {
 		let b = new Barix(elems);
 		return b;
 	}
-	
+    ///////////////////////////////////////////////////////////
+
 	
 	/**********************************************************
 	 * addClass
@@ -47,7 +53,7 @@ class Barix {
 		}
 		return this;
 	}
-	
+	///////////////////////////////////////////////////////////
 		
 	
 	/**********************************************************
@@ -81,7 +87,7 @@ class Barix {
 		}
 		return this;
 	}
-	
+	///////////////////////////////////////////////////////////
 	
 	
 	/**********************************************************
@@ -113,8 +119,9 @@ class Barix {
 		}
 		return hasClass;
     }
+    ///////////////////////////////////////////////////////////
 
-    	
+
 	/**********************************************************
 	 * .each(callback)
 	 *********************************************************/
@@ -126,13 +133,27 @@ class Barix {
         }
         return this;
     }
+    ////////////////////////////////////////////////////////////
 
 
     /***********************************************************
     * .css({styleNameValuePairObject})
-    ************************************************************/
-    public css(styleObj: any) {
+    ***********************************************************/
+    public css(...args) {
         let el: HTMLElement;
+        let styleObj: any;
+        
+        if (args.length == 2) {             //if style is provided as (name,value)
+            styleObj = {};
+            styleObj[args[0]] = args[1];
+        }
+        else if (args.length == 1) {        //if style is provided as json object
+            styleObj = args[0];
+        }
+        else {
+            var e = 'Barix: css style can be provided as single (name,value) pair or as a json object.'
+            throw e;
+        }
         for (let i = 0; i < this.elems.length; i++) {
             el = this.elems[i] as HTMLElement;
             for (let key in styleObj) {
@@ -141,6 +162,31 @@ class Barix {
         }
         return this;
     }
+    /////////////////////////////////////////////////////////////
+
+
+
+    /***********************************************************
+    * .on
+    ***********************************************************/
+    public on(...args) {
+        let eventName: string = args[0];
+        let selector: string;
+        let callback: EventListener;
+
+        if (args.length == 2) {
+            callback = args[1];
+            for (let i in this.elems) {
+                this.elems[i].addEventListener(eventName, callback);
+            }
+        }
+        else if (args.length == 3) {
+
+        }
+
+        return this;
+    }
+    ////////////////////////////////////////////////////////////
 
 }
 

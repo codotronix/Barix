@@ -1,7 +1,11 @@
 var Barix = (function () {
+    /**********************************************************
+     * constructor
+     *********************************************************/
     function Barix(elems) {
         this.elems = elems;
     }
+    ///////////////////////////////////////////////////////////
     /**********************************************************
      * create a jquery like selector
      *********************************************************/
@@ -23,6 +27,7 @@ var Barix = (function () {
         var b = new Barix(elems);
         return b;
     };
+    ///////////////////////////////////////////////////////////
     /**********************************************************
      * addClass
      *********************************************************/
@@ -41,6 +46,7 @@ var Barix = (function () {
         }
         return this;
     };
+    ///////////////////////////////////////////////////////////
     /**********************************************************
      * removeClass...
      *********************************************************/
@@ -70,6 +76,7 @@ var Barix = (function () {
         }
         return this;
     };
+    ///////////////////////////////////////////////////////////
     /**********************************************************
      * hasClass
      *********************************************************/
@@ -96,6 +103,7 @@ var Barix = (function () {
         }
         return hasClass;
     };
+    ///////////////////////////////////////////////////////////
     /**********************************************************
      * .each(callback)
      *********************************************************/
@@ -107,16 +115,55 @@ var Barix = (function () {
         }
         return this;
     };
+    ////////////////////////////////////////////////////////////
     /***********************************************************
     * .css({styleNameValuePairObject})
-    ************************************************************/
-    Barix.prototype.css = function (styleObj) {
+    ***********************************************************/
+    Barix.prototype.css = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
         var el;
+        var styleObj;
+        if (args.length == 2) {
+            styleObj = {};
+            styleObj[args[0]] = args[1];
+        }
+        else if (args.length == 1) {
+            styleObj = args[0];
+        }
+        else {
+            var e = 'Barix: css style can be provided as single (name,value) pair or as a json object.';
+            throw e;
+        }
         for (var i = 0; i < this.elems.length; i++) {
             el = this.elems[i];
             for (var key in styleObj) {
                 el.style[key] = styleObj[key];
             }
+        }
+        return this;
+    };
+    /////////////////////////////////////////////////////////////
+    /***********************************************************
+    * .on
+    ***********************************************************/
+    Barix.prototype.on = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        var eventName = args[0];
+        var selector;
+        var callback;
+        if (args.length == 2) {
+            callback = args[1];
+            for (var i in this.elems) {
+                this.elems[i].addEventListener(eventName, callback);
+            }
+        }
+        else if (args.length == 3) {
         }
         return this;
     };
