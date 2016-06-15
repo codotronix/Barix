@@ -100,6 +100,17 @@ class Barix {
 		return hasClass;
 	}
 	
+	/**********************************************************
+	 * .each(callback)
+	 *********************************************************/
+	public each (callback: Function) {
+		let c:Function;
+		for (let i=0; i< this.elems.length; i++) {
+			c = callback.bind(this.elems[i]);		//so that this=element
+			c(i, this.elems[i]);					//param1=index, param2=element=this
+		}
+	}
+	
 }
 
 var bx = Barix.select;
