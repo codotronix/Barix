@@ -6,7 +6,20 @@ var Barix = (function () {
      * create a jquery like selector
      *********************************************************/
     Barix.select = function (selector) {
-        var elems = document.querySelectorAll(selector);
+        var elems = new Array();
+        if (selector && typeof (selector) == "string") {
+            var elemList = document.querySelectorAll(selector);
+            for (var i = 0; i < elemList.length; i++) {
+                elems.push(elemList[i]);
+            }
+        }
+        else if (selector instanceof Element) {
+            elems.push(selector);
+        }
+        else {
+            var e = 'Barix: ' + selector + ' is not a supported selector or Element.';
+            throw e;
+        }
         var b = new Barix(elems);
         return b;
     };
