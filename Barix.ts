@@ -1,15 +1,29 @@
 class Barix {
-	elems:NodeListOf<Element>;
+	elems:Array<Element>;
 	
-	constructor (elems:NodeListOf<Element>) {
+	constructor (elems:Array<Element>) {
 		this.elems = elems;
 	}
 	
 	/**********************************************************
 	 * create a jquery like selector
 	 *********************************************************/
-	public static select (selector: string) {
-		let elems = document.querySelectorAll(selector);
+	public static select (selector: string | Node) {
+		let elems:Array<Element> = new Array<Element>();
+		
+		if (selector && typeof(selector) == "string") {
+			let elemList = document.querySelectorAll(selector as string);
+			for(let i=0; i<elemList.length; i++) {
+				elems.push(elemList[i]);
+			}
+		}
+		else if (selector instanceof Element) {
+			elems.push(selector);
+		} else {
+			var e:ExceptionInformation = 'Barix: ' + selector + ' is not a supported selector or Element.';
+			throw e;
+		}
+		
 		let b = new Barix(elems);
 		return b;
 	}
@@ -107,7 +121,7 @@ class Barix {
 		let c:Function;
 		for (let i=0; i< this.elems.length; i++) {
 			c = callback.bind(this.elems[i]);		//so that this=element
-			c(i, this.elems[i]);					//param1=index, param2=element=this
+			c(i, this.elems[i]);				//param1=index, param2=element=this
 		}
 	}
 	
