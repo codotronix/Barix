@@ -164,8 +164,44 @@ var Barix = (function () {
             }
         }
         else if (args.length == 3) {
+            selector = args[1];
+            callback = args[2];
+            var parentEl_1;
+            var selectorEl_1;
+            var selectorElArr_1;
+            var el_1;
+            var cb_1;
+            for (var i in this.elems) {
+                parentEl_1 = this.elems[i];
+                parentEl_1.addEventListener(eventName, function (ev) {
+                    selectorEl_1 = parentEl_1.querySelectorAll(selector);
+                    selectorElArr_1 = Barix.ListToArray(selectorEl_1);
+                    el_1 = ev.target;
+                    while (el_1 != parentEl_1) {
+                        if (selectorElArr_1.indexOf(el_1) > -1) {
+                            cb_1 = callback.bind(el_1);
+                            cb_1(ev);
+                            break;
+                        }
+                        else {
+                            el_1 = el_1.parentElement;
+                        }
+                    }
+                });
+            }
         }
         return this;
+    };
+    ////////////////////////////////////////////////////////////
+    /***********************************************************
+    * List to Array Converter
+    ***********************************************************/
+    Barix.ListToArray = function (list) {
+        var arr = [];
+        for (var i = 0; i < list.length; i++) {
+            arr.push(list[i]);
+        }
+        return arr;
     };
     return Barix;
 }());

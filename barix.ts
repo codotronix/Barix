@@ -181,10 +181,51 @@ class Barix {
             }
         }
         else if (args.length == 3) {
+            selector = args[1];
+            callback = args[2];
+            let parentEl: Element;
+            let selectorEl:NodeListOf<Element>;
+            let selectorElArr: Element[];
+            let el: Element;
+            let cb: Function;
+
+            for (let i in this.elems) {
+                parentEl = this.elems[i];                          
+
+                parentEl.addEventListener(eventName, function (ev) {
+                    selectorEl = parentEl.querySelectorAll(selector);
+                    selectorElArr = Barix.ListToArray(selectorEl);
+                    el = ev.target as Element;
+                    while (el != parentEl) {
+                        if (selectorElArr.indexOf(el) > -1) {
+                            cb = callback.bind(el);
+                            cb(ev);
+                            break;
+                        }
+                        else {
+                            el = el.parentElement;
+                        }
+                    }
+                })
+
+
+            }
 
         }
 
         return this;
+    }
+    ////////////////////////////////////////////////////////////
+
+    /***********************************************************
+    * List to Array Converter
+    ***********************************************************/
+    static ListToArray(list: any) {
+        let arr: any = [];
+        for (let i = 0; i < list.length; i++) {
+            arr.push(list[i]);
+        }
+        return arr;
     }
     ////////////////////////////////////////////////////////////
 
