@@ -7,39 +7,47 @@
     <link rel="stylesheet" href="app.css" type="text/css" />    
 </head>
 <body>
-    <h1>TypeScript HTML App</h1>
-    <ul id="ul1">
-        <li>List Item 1</li>
-        <li>List Item 2</li>
-        <li>List Item 3</li>
+    <h1>bx Test Page</h1>
+
+    <h2>Keep on Clicking on These Items</h2>
+    <ul id="ul1">        
+        <li>Click Item 1</li>
+        <li>Click Item 2</li>
+        <li>Click Item 3</li>
     </ul>
     <button id="btn1">Add Item</button>
 
-    <div id="d1" style="height:300px; width:300px;background:yellow;">
-        <div id="d2" style="height:200px; width:200px;background:blue;">
-            <div id="d3" style="height:100px; width:100px;background:green;">
-                Click Me!
-            </div>
-        </div>
-    </div>
 
     <div id="content"></div>
     <script src="barix.js"></script>
     <script>
 
-        bx('#btn1').on('click', function () {
-            var htm = bx('#ul1').elems[0].innerHTML;
-            htm += '<li>New Item</li>';
-            bx('#ul1').elems[0].innerHTML = htm;
+        //apply some style
+        bx('h2').css({
+            "text-decoration": "underline",
+            "color": "violet"
         });
 
+        //static binding
+        bx('#btn1').on('click', function () {            
+            bx('#ul1').append('<li>New Click Item</li>');
+        });
+
+        //dynamic binding
         bx('#ul1').on('click', 'li', function () {
+            var color = getRandomColor();
+            bx(this).css('background', color);
+        });
+
+
+
+        function getRandomColor() {
             var r = Math.floor(Math.random() * 255);
             var g = Math.floor(Math.random() * 255);
             var b = Math.floor(Math.random() * 255);
             var color = 'rgb(' + r + ',' + g + ',' + b + ')';
-            bx(this).css('background', color);
-        })
+            return color;
+        }
 
     </script>
 </body>

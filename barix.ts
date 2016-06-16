@@ -11,16 +11,14 @@ class Barix {
 
 	
 	/**********************************************************
-	 * create a jquery like selector
+	 * a jquery like selector
 	 *********************************************************/
 	public static select (selector: string | Node) {
 		let elems:Array<Element> = new Array<Element>();
 		
 		if (selector && typeof(selector) == "string") {
-			let elemList = document.querySelectorAll(selector as string);
-			for(let i=0; i<elemList.length; i++) {
-				elems.push(elemList[i]);
-			}
+            let elemList = document.querySelectorAll(selector as string);
+            elems = Barix.ListToArray(elemList);
 		}
 		else if (selector instanceof Element) {
 			elems.push(selector);
@@ -42,7 +40,7 @@ class Barix {
 		let classes = (classNames || "").trim();
 		let classAddArr:string[] = classes.split(' ');
 		let el:Element;
-		for (let i=0; i< this.elems.length; i++) {			
+		for (let i in this.elems) {			
 			el = this.elems[i];	
 			for(let j in classAddArr) {
 				if(el.className.indexOf(classAddArr[j]) < 0) {
@@ -64,7 +62,7 @@ class Barix {
 		
 		//if empty, then remove all classes
 		if(classes == ""){
-			for (let i=0; i< this.elems.length; i++) {
+			for (let i in this.elems) {
 				this.elems[i].className = '';
 			}
 			return this;
@@ -74,10 +72,10 @@ class Barix {
 		let classRemArr:string[] = classes.split(' ');
 		let existingClasses:string[];
 		let newClasses:string;
-		for (let i=0; i< this.elems.length; i++) {
+		for (let i in this.elems) {
 			newClasses = '';
 			existingClasses = this.elems[i].className.split(' ');			
-			for(let j=0; j < existingClasses.length; j++) {
+			for(let j in existingClasses) {
 				if (classRemArr.indexOf(existingClasses[j]) < 0) {
 					newClasses += " " + existingClasses[j];
 				}
@@ -108,9 +106,9 @@ class Barix {
 		let newClasses:string;
 		let hasClass:boolean = true;
 		
-		for (let i=0; i< this.elems.length; i++) {
+		for (let i in this.elems) {
 			el = this.elems[i];			
-			for(let j=0; j<classArgArr.length; j++) {
+			for(let j in classArgArr) {
 				if(el.className.indexOf(classArgArr[j]) < 0) {
 					hasClass=false;
 					return hasClass;
@@ -127,7 +125,7 @@ class Barix {
 	 *********************************************************/
 	public each (callback: Function) {
 		let c:Function;
-		for (let i=0; i< this.elems.length; i++) {
+		for (let i in this.elems) {
 			c = callback.bind(this.elems[i]);		//so that this=element
 			c(i, this.elems[i]);				//param1=index, param2=element=this
         }
@@ -154,7 +152,7 @@ class Barix {
             var e = 'Barix: css style can be provided as single (name,value) pair or as a json object.'
             throw e;
         }
-        for (let i = 0; i < this.elems.length; i++) {
+        for (let i in this.elems) {
             el = this.elems[i] as HTMLElement;
             for (let key in styleObj) {
                 el.style[key] = styleObj[key];
@@ -207,15 +205,56 @@ class Barix {
                         }
                     }
                 })
-
-
             }
-
         }
-
         return this;
     }
     ////////////////////////////////////////////////////////////
+
+
+    /***********************************************************
+    * .text(textContent) -> overwrites text Content
+    ***********************************************************/
+    public text(textContent: string) {
+        for (let i in this.elems) {
+            this.elems[0].textContent = textContent;
+        }
+    }
+    ////////////////////////////////////////////////////////////
+
+
+    /***********************************************************
+    * .appendText(textContent) -> appends text Content
+    ***********************************************************/
+    public appendText(textContent: string) {
+        for (let i in this.elems) {
+            this.elems[0].textContent += textContent;
+        }
+    }
+    ////////////////////////////////////////////////////////////
+
+
+    /***********************************************************
+    * .html(htmlContent) -> overwrites HTML Content
+    ***********************************************************/
+    public html(htmlContent: string) {
+        for (let i in this.elems) {
+            this.elems[0].innerHTML = htmlContent;
+        }
+    }
+    ////////////////////////////////////////////////////////////
+
+
+    /***********************************************************
+    * .append(htmlContent) -> Appends HTML Content
+    ***********************************************************/
+    public append(htmlContent: string) {
+        for (let i in this.elems) {
+            this.elems[0].innerHTML += htmlContent;
+        }
+    }
+    ////////////////////////////////////////////////////////////
+
 
     /***********************************************************
     * List to Array Converter
@@ -228,6 +267,9 @@ class Barix {
         return arr;
     }
     ////////////////////////////////////////////////////////////
+
+
+
 
 }
 

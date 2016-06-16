@@ -7,15 +7,13 @@ var Barix = (function () {
     }
     ///////////////////////////////////////////////////////////
     /**********************************************************
-     * create a jquery like selector
+     * a jquery like selector
      *********************************************************/
     Barix.select = function (selector) {
         var elems = new Array();
         if (selector && typeof (selector) == "string") {
             var elemList = document.querySelectorAll(selector);
-            for (var i = 0; i < elemList.length; i++) {
-                elems.push(elemList[i]);
-            }
+            elems = Barix.ListToArray(elemList);
         }
         else if (selector instanceof Element) {
             elems.push(selector);
@@ -35,7 +33,7 @@ var Barix = (function () {
         var classes = (classNames || "").trim();
         var classAddArr = classes.split(' ');
         var el;
-        for (var i = 0; i < this.elems.length; i++) {
+        for (var i in this.elems) {
             el = this.elems[i];
             for (var j in classAddArr) {
                 if (el.className.indexOf(classAddArr[j]) < 0) {
@@ -54,7 +52,7 @@ var Barix = (function () {
         var classes = (classNames || "").trim();
         //if empty, then remove all classes
         if (classes == "") {
-            for (var i = 0; i < this.elems.length; i++) {
+            for (var i in this.elems) {
                 this.elems[i].className = '';
             }
             return this;
@@ -63,10 +61,10 @@ var Barix = (function () {
         var classRemArr = classes.split(' ');
         var existingClasses;
         var newClasses;
-        for (var i = 0; i < this.elems.length; i++) {
+        for (var i in this.elems) {
             newClasses = '';
             existingClasses = this.elems[i].className.split(' ');
-            for (var j = 0; j < existingClasses.length; j++) {
+            for (var j in existingClasses) {
                 if (classRemArr.indexOf(existingClasses[j]) < 0) {
                     newClasses += " " + existingClasses[j];
                 }
@@ -92,9 +90,9 @@ var Barix = (function () {
         var el;
         var newClasses;
         var hasClass = true;
-        for (var i = 0; i < this.elems.length; i++) {
+        for (var i in this.elems) {
             el = this.elems[i];
-            for (var j = 0; j < classArgArr.length; j++) {
+            for (var j in classArgArr) {
                 if (el.className.indexOf(classArgArr[j]) < 0) {
                     hasClass = false;
                     return hasClass;
@@ -109,7 +107,7 @@ var Barix = (function () {
      *********************************************************/
     Barix.prototype.each = function (callback) {
         var c;
-        for (var i = 0; i < this.elems.length; i++) {
+        for (var i in this.elems) {
             c = callback.bind(this.elems[i]); //so that this=element
             c(i, this.elems[i]); //param1=index, param2=element=this
         }
@@ -137,7 +135,7 @@ var Barix = (function () {
             var e = 'Barix: css style can be provided as single (name,value) pair or as a json object.';
             throw e;
         }
-        for (var i = 0; i < this.elems.length; i++) {
+        for (var i in this.elems) {
             el = this.elems[i];
             for (var key in styleObj) {
                 el.style[key] = styleObj[key];
@@ -191,6 +189,42 @@ var Barix = (function () {
             }
         }
         return this;
+    };
+    ////////////////////////////////////////////////////////////
+    /***********************************************************
+    * .text(textContent) -> overwrites text Content
+    ***********************************************************/
+    Barix.prototype.text = function (textContent) {
+        for (var i in this.elems) {
+            this.elems[0].textContent = textContent;
+        }
+    };
+    ////////////////////////////////////////////////////////////
+    /***********************************************************
+    * .appendText(textContent) -> appends text Content
+    ***********************************************************/
+    Barix.prototype.appendText = function (textContent) {
+        for (var i in this.elems) {
+            this.elems[0].textContent += textContent;
+        }
+    };
+    ////////////////////////////////////////////////////////////
+    /***********************************************************
+    * .html(htmlContent) -> overwrites HTML Content
+    ***********************************************************/
+    Barix.prototype.html = function (htmlContent) {
+        for (var i in this.elems) {
+            this.elems[0].innerHTML = htmlContent;
+        }
+    };
+    ////////////////////////////////////////////////////////////
+    /***********************************************************
+    * .append(htmlContent) -> Appends HTML Content
+    ***********************************************************/
+    Barix.prototype.append = function (htmlContent) {
+        for (var i in this.elems) {
+            this.elems[0].innerHTML += htmlContent;
+        }
     };
     ////////////////////////////////////////////////////////////
     /***********************************************************
