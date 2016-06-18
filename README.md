@@ -14,9 +14,9 @@ A small lightweight jquery like utility
 * `bx(...).css("key","value")`                    - Style can be passed as a `JSON` object or a single (key,value) pair
 * `bx('...').on('event', callbackFunction)`       - Adding Event Listeners / Binding events
 * `bx('...').on('event', '...', callbackFunction)`- Dynamic/Late binding of events and eventsHandlers
-* `bx('...').text("... Some Text...")`            - Adds/Overwrites texts to the selected elements
-* `bx('...').appendText("... Some Text...")`      - Appends texts to the selected elements
 * `bx('...').html("... HTML Content ...")`        - Adds/Overwrites HTML inside selected elements
 * `bx('...').append("... HTML Content ...")`      - Appends HTML inside selected elements
+* `bx('...').text("... Some Text...")`            - Adds/Overwrites texts to the selected elements
+* `bx('...').appendText("... Some Text...")`      - Appends texts to the selected elements
 * `bx('...').trigger('eventName')`                - Triggers the given event on the selected elements
 * `Barix.addFunc("funcName", theFunction)`        - Adds custom function to Barix, which can be called as `bx(...).funcName()`
