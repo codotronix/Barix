@@ -201,17 +201,6 @@ var Barix = (function () {
     };
     ////////////////////////////////////////////////////////////
     /***********************************************************
-    * .trigger (eventName: string)
-    ***********************************************************/
-    Barix.prototype.trigger = function (evName) {
-        var event = document.createEvent('HTMLEvents');
-        event.initEvent(evName, true, false);
-        for (var i in this.elems) {
-            this.elems[i].dispatchEvent(event);
-        }
-    };
-    ////////////////////////////////////////////////////////////
-    /***********************************************************
     * .text(textContent) -> overwrites text Content
     ***********************************************************/
     Barix.prototype.text = function (textContent) {
@@ -252,6 +241,18 @@ var Barix = (function () {
     };
     ////////////////////////////////////////////////////////////
     /***********************************************************
+    * .trigger (eventName: string)
+    ***********************************************************/
+    Barix.prototype.trigger = function (evName) {
+        var event = document.createEvent('HTMLEvents');
+        event.initEvent(evName, true, false);
+        for (var i in this.elems) {
+            this.elems[i].dispatchEvent(event);
+        }
+        return this;
+    };
+    ////////////////////////////////////////////////////////////
+    /***********************************************************
     * .addFunc("funcName", Function) to extend functionality of Barix
     ***********************************************************/
     Barix.addFunc = function (funcName, func) {
@@ -271,3 +272,4 @@ var Barix = (function () {
     return Barix;
 }());
 var bx = Barix.select;
+//# sourceMappingURL=barix.js.map

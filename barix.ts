@@ -20,7 +20,7 @@ class Barix {
 	 *********************************************************/
 	public static select (selector: string | Node | Function) : Barix {
 		let elems:Array<Element> = new Array<Element>();
-
+        
         //if bx(function(){}) is used as document ready
         if (selector && typeof (selector) == "function") {
             window.onload = () => { (selector as Function)()};
@@ -139,8 +139,8 @@ class Barix {
 		for (let i in this.elems) {
 			c = callback.bind(this.elems[i]);		//so that this=element
 			c(i, this.elems[i]);				//param1=index, param2=element=this
-	}
-	return this;
+        }
+        return this;
     }
     ////////////////////////////////////////////////////////////
 
@@ -223,18 +223,6 @@ class Barix {
     ////////////////////////////////////////////////////////////
 
 
-   /***********************************************************
-    * .trigger (eventName: string)
-    ***********************************************************/
-	public trigger(evName:string) {
-		var event = document.createEvent('HTMLEvents');
-        event.initEvent(evName, true, false);
-		for (let i in this.elems) {
-			this.elems[i].dispatchEvent(event);
-		}
-	}
-	////////////////////////////////////////////////////////////
-
     /***********************************************************
     * .text(textContent) -> overwrites text Content
     ***********************************************************/
@@ -282,13 +270,26 @@ class Barix {
     }
     ////////////////////////////////////////////////////////////
 
+    /***********************************************************
+    * .trigger (eventName: string)
+    ***********************************************************/
+    public trigger(evName: string): Barix {
+        var event = document.createEvent('HTMLEvents');
+        event.initEvent(evName, true, false);
+        for (let i in this.elems) {
+            this.elems[i].dispatchEvent(event);
+        }
+        return this;
+    }
+	////////////////////////////////////////////////////////////
 
-   /***********************************************************
+
+    /***********************************************************
     * .addFunc("funcName", Function) to extend functionality of Barix
     ***********************************************************/
-	public static addFunc (funcName:string, func:Function) {
-		Barix.prototype[funcName] = func;
-	}
+    public static addFunc(funcName: string, func: Function) {
+        Barix.prototype[funcName] = func;
+    }
 	////////////////////////////////////////////////////////////
 
     /***********************************************************
@@ -302,7 +303,10 @@ class Barix {
         return arr;
     }
     ////////////////////////////////////////////////////////////
+
+
+
+
 }
 
 var bx = Barix.select;
-
