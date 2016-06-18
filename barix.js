@@ -1,3 +1,8 @@
+/*!
+ * Barix (https://github.com/codotronix/Barix)
+ * Copyright 2016 Suman Barick
+ * Licensed under the MIT license
+ */
 var Barix = (function () {
     /**********************************************************
      * constructor
@@ -11,11 +16,15 @@ var Barix = (function () {
      *********************************************************/
     Barix.select = function (selector) {
         var elems = new Array();
-        if (selector && typeof (selector) == "string") {
+        //if bx(function(){}) is used as document ready
+        if (selector && typeof (selector) == "function") {
+            window.onload = function () { selector(); };
+        }
+        else if (selector && typeof (selector) == "string") {
             var elemList = document.querySelectorAll(selector);
             elems = Barix.ListToArray(elemList);
         }
-        else if (selector instanceof Element) {
+        else if (selector && selector instanceof Element) {
             elems.push(selector);
         }
         else {
@@ -209,6 +218,7 @@ var Barix = (function () {
         for (var i in this.elems) {
             this.elems[0].textContent = textContent;
         }
+        return this;
     };
     ////////////////////////////////////////////////////////////
     /***********************************************************
@@ -218,6 +228,7 @@ var Barix = (function () {
         for (var i in this.elems) {
             this.elems[0].textContent += textContent;
         }
+        return this;
     };
     ////////////////////////////////////////////////////////////
     /***********************************************************
@@ -227,6 +238,7 @@ var Barix = (function () {
         for (var i in this.elems) {
             this.elems[0].innerHTML = htmlContent;
         }
+        return this;
     };
     ////////////////////////////////////////////////////////////
     /***********************************************************
@@ -236,6 +248,7 @@ var Barix = (function () {
         for (var i in this.elems) {
             this.elems[0].innerHTML += htmlContent;
         }
+        return this;
     };
     ////////////////////////////////////////////////////////////
     /***********************************************************

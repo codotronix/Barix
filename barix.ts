@@ -1,3 +1,8 @@
+/*!
+ * Barix (https://github.com/codotronix/Barix)
+ * Copyright 2016 Suman Barick
+ * Licensed under the MIT license
+ */
 class Barix {
 	elems:Array<Element>;
 
@@ -13,14 +18,20 @@ class Barix {
 	/**********************************************************
 	 * a jquery like selector
 	 *********************************************************/
-	public static select (selector: string | Node) {
+	public static select (selector: string | Node | Function) : Barix {
 		let elems:Array<Element> = new Array<Element>();
-		
-		if (selector && typeof(selector) == "string") {
+
+        //if bx(function(){}) is used as document ready
+        if (selector && typeof (selector) == "function") {
+            window.onload = () => { (selector as Function)()};
+        }
+        //if the selector is a css selector
+		else if (selector && typeof(selector) == "string") {
             let elemList = document.querySelectorAll(selector as string);
             elems = Barix.ListToArray(elemList);
-		}
-		else if (selector instanceof Element) {
+        }
+        //if selector is already an element
+        else if (selector && selector instanceof Element) {
 			elems.push(selector);
 		} else {
 			var e:ExceptionInformation = 'Barix: ' + selector + ' is not a supported selector or Element.';
@@ -36,7 +47,7 @@ class Barix {
 	/**********************************************************
 	 * addClass
 	 *********************************************************/	
-	public addClass (classNames:string) {
+    public addClass(classNames: string): Barix {
 		let classes = (classNames || "").trim();
 		let classAddArr:string[] = classes.split(' ');
 		let el:Element;
@@ -57,7 +68,7 @@ class Barix {
 	/**********************************************************
 	 * removeClass...
 	 *********************************************************/
-	public removeClass (classNames:string) {
+    public removeClass(classNames: string): Barix {
 		let classes = (classNames || "").trim();
 		
 		//if empty, then remove all classes
@@ -123,7 +134,7 @@ class Barix {
 	/**********************************************************
 	 * .each(callback)
 	 *********************************************************/
-	public each (callback: Function) {
+    public each(callback: Function): Barix {
 		let c:Function;
 		for (let i in this.elems) {
 			c = callback.bind(this.elems[i]);		//so that this=element
@@ -137,7 +148,7 @@ class Barix {
     /***********************************************************
     * .css({styleNameValuePairObject})
     ***********************************************************/
-    public css(...args) {
+    public css(...args): Barix {
         let el: HTMLElement;
         let styleObj: any;
         
@@ -167,7 +178,7 @@ class Barix {
     /***********************************************************
     * .on
     ***********************************************************/
-    public on(...args) {
+    public on(...args): Barix {
         let eventName: string = args[0];
         let selector: string;
         let callback: EventListener;
@@ -227,10 +238,11 @@ class Barix {
     /***********************************************************
     * .text(textContent) -> overwrites text Content
     ***********************************************************/
-    public text(textContent: string) {
+    public text(textContent: string): Barix {
         for (let i in this.elems) {
             this.elems[0].textContent = textContent;
         }
+        return this;
     }
     ////////////////////////////////////////////////////////////
 
@@ -238,10 +250,11 @@ class Barix {
     /***********************************************************
     * .appendText(textContent) -> appends text Content
     ***********************************************************/
-    public appendText(textContent: string) {
+    public appendText(textContent: string): Barix {
         for (let i in this.elems) {
             this.elems[0].textContent += textContent;
         }
+        return this;
     }
     ////////////////////////////////////////////////////////////
 
@@ -249,10 +262,11 @@ class Barix {
     /***********************************************************
     * .html(htmlContent) -> overwrites HTML Content
     ***********************************************************/
-    public html(htmlContent: string) {
+    public html(htmlContent: string): Barix {
         for (let i in this.elems) {
             this.elems[0].innerHTML = htmlContent;
         }
+        return this;
     }
     ////////////////////////////////////////////////////////////
 
@@ -260,10 +274,11 @@ class Barix {
     /***********************************************************
     * .append(htmlContent) -> Appends HTML Content
     ***********************************************************/
-    public append(htmlContent: string) {
+    public append(htmlContent: string): Barix {
         for (let i in this.elems) {
             this.elems[0].innerHTML += htmlContent;
         }
+        return this;
     }
     ////////////////////////////////////////////////////////////
 

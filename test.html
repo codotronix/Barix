@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>TypeScript HTML App</title>
+    <link rel="stylesheet" href="app.css" type="text/css" />    
+</head>
+<body>
+    <h1>bx Test Page</h1>
+
+    <h2>Keep on Clicking on These Items</h2>
+    <ul id="ul1">        
+        <li>Click Item 1</li>
+        <li>Click Item 2</li>
+        <li>Click Item 3</li>
+    </ul>
+    <button id="btn1">Add Item</button>
+
+
+    <div id="content"></div>
+    <script src="barix.js"></script>
+    <script>
+
+        //apply some style
+        bx('h2').css({
+            "text-decoration": "underline",
+            "color": "violet"
+        });
+
+        //static binding
+        bx('#btn1').on('click', function () {            
+            bx('#ul1').append('<li>New Click Item</li>');
+        });
+
+        //dynamic binding
+        bx('#ul1').on('click', 'li', function () {
+            var color = getRandomColor();
+            bx(this).css('background', color);
+        });
+
+
+
+        function getRandomColor() {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            var color = 'rgb(' + r + ',' + g + ',' + b + ')';
+            return color;
+        }
+
+    </script>
+</body>
+</html>

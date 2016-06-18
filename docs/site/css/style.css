@@ -1,0 +1,30 @@
+.navbar-inverse .navbar-nav>li>a {
+    color: #D0C2C2;
+}
+
+@media (max-width: 767px) {
+    .navbar-nav>li {
+        border-left: 4px solid transparent;
+    }
+
+    .navbar-nav>li.active {
+        border-left: 4px solid #6666FD;
+    }
+
+    .navbar-nav>li:hover,
+    .navbar-nav>li:focus {
+        border-left: 4px solid #F00;
+    }
+}
+@media (min-width: 768px) {
+    .navbar-nav>li.active {
+        border-bottom: 4px solid #6666FD !important;
+    }
+    .navbar-nav>li:hover,
+    .navbar-nav>li:focus {
+        border-bottom: 4px solid #F00;
+    }
+    .navbar-nav>li>a {
+        padding-bottom: 11px;
+    }
+}
