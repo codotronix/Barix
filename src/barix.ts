@@ -54,6 +54,37 @@ class Barix {
 	}
     ///////////////////////////////////////////////////////////
 
+
+    /**********************************************************
+	 * .remove()
+	 *********************************************************/
+    public remove(): Barix {
+        for (let i in this.elems) {
+            this.elems[i].parentNode.removeChild(this.elems[i]);
+        }
+        return this;
+    }
+    ///////////////////////////////////////////////////////////
+
+    /**********************************************************
+	 * .find('selector')
+	 *********************************************************/
+    public find(selector: string):Barix {
+        var newElems: Element[] = [];
+        var tempArray: Element[];
+        for (let i in this.elems) {
+            tempArray = Barix.ListToArray(this.elems[i].querySelectorAll(selector));
+            //push all elements in newElems array
+            for (let j in tempArray) {
+                newElems.push(tempArray[j]);
+            }
+        }
+        this.elems = newElems;
+        return this;
+    }
+    ///////////////////////////////////////////////////////////
+
+
     /**********************************************************
 	 * .attr('attrName', 'attrValue')
 	 *********************************************************/
@@ -262,7 +293,7 @@ class Barix {
     ***********************************************************/
     public text(textContent: string): Barix {
         for (let i in this.elems) {
-            this.elems[0].textContent = textContent;
+            this.elems[i].textContent = textContent;
         }
         return this;
     }
@@ -274,7 +305,7 @@ class Barix {
     ***********************************************************/
     public appendText(textContent: string): Barix {
         for (let i in this.elems) {
-            this.elems[0].textContent += textContent;
+            this.elems[i].textContent += textContent;
         }
         return this;
     }
@@ -286,7 +317,7 @@ class Barix {
     ***********************************************************/
     public html(htmlContent: string): Barix {
         for (let i in this.elems) {
-            this.elems[0].innerHTML = htmlContent;
+            this.elems[i].innerHTML = htmlContent;
         }
         return this;
     }
@@ -298,7 +329,7 @@ class Barix {
     ***********************************************************/
     public append(htmlContent: string): Barix {
         for (let i in this.elems) {
-            this.elems[0].innerHTML += htmlContent;
+            this.elems[i].innerHTML += htmlContent;
         }
         return this;
     }
