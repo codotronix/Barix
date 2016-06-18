@@ -3,9 +3,10 @@
  * Copyright 2016 Suman Barick
  * Licensed under the MIT license
  */
+"use strict"
 class Barix {
 	elems:Array<Element>;
-
+    
     /**********************************************************
 	 * constructor
 	 *********************************************************/
@@ -23,7 +24,17 @@ class Barix {
         
         //if bx(function(){}) is used as document ready
         if (selector && typeof (selector) == "function") {
-            window.onload = () => { (selector as Function)()};
+            Barix.prototype["onReadyFnQueue"] = Barix.prototype["onReadyFnQueue"] || [];
+            Barix.prototype["onReadyFnQueue"].push(selector);
+
+            window.onload = () => {
+                //execute all the doc ready function one by one
+                for (let i in Barix.prototype["onReadyFnQueue"]) {
+                    Barix.prototype["onReadyFnQueue"][i]();
+                }
+                //once done calling all, delete them to freeup memory
+                delete Barix.prototype["onReadyFnQueue"];
+            };
         }
         //if the selector is a css selector
 		else if (selector && typeof(selector) == "string") {
@@ -43,9 +54,32 @@ class Barix {
 	}
     ///////////////////////////////////////////////////////////
 
+    /**********************************************************
+	 * .attr('attrName', 'attrValue')
+	 *********************************************************/
+    public attr(...args): string | Barix {
+        let attrName: string;
+        let attrValue: string;
+        //if it is get
+        if (args.length == 1) {
+            attrName = args[0];
+            return this.elems[0].getAttribute(attrName);
+        }
+        //if it is set
+        else if (args.length == 2) {
+            attrName = args[0];
+            attrValue = args[1];
+            for (let i in this.elems) {
+                this.elems[i].setAttribute(attrName, attrValue);
+            }
+            return this;
+        }
+    }
+    ///////////////////////////////////////////////////////////
+
 	
 	/**********************************************************
-	 * addClass
+	 * addClass("class1 class2")
 	 *********************************************************/	
     public addClass(classNames: string): Barix {
 		let classes = (classNames || "").trim();
