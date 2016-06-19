@@ -23,4 +23,4 @@ A small lightweight jquery like utility
 * `bx('...').on('event', callbackFunction)`         - Adding Event Listeners / Binding events
 * `bx('...').on('event', '...', callbackFunction)`  - Dynamic/Late binding of events and eventsHandlers
 * `bx('...').trigger('eventName')`                  - Triggers the given event on the selected elements
-* `Barix.addFunc("funcName", theFunction)`          - Adds custom function to Barix, which can be called as `bx('...').funcName()`
+* `Barix.addFunc("funcName", theFunction)`        - Adds custom function to Barix, which can be called as `bx(...).funcName()`
