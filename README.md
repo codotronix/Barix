@@ -11,7 +11,7 @@ A small lightweight jquery like utility
 
 ### Functions
 
-* `bx(function{ /* Document is ready */ })`         - Shorthand for window.onload / document.ready
+* `bx(function () { /* Document is ready */ })`     - Shorthand for window.onload / document.ready
 * `bx('selector')` or `Barix.select(selector)`      - Selects the elements matching the (css style) String "selector"
 * `bx('...').elems`                                 - Returns an array of selected elements. (... = selector)
 * `bx('...').attr("attrName")`                      - Returns the value of the given attribute-name [for the 1st element only]
