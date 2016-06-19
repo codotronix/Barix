@@ -2,6 +2,13 @@
 A small lightweight jquery like utility
 
 
+### CDN for Quick-Test
+```
+  <script type="text/javascript" src="http://codotronix.github.io/codelib/barix/v1.0.1/barix.min.js"></script>
+```
+
+
+
 ### Functions
 
 * `bx(function{ /* Document is ready */ })`         - Shorthand for window.onload / document.ready
