@@ -89,24 +89,73 @@ class Barix {
 	 * .attr('attrName', 'attrValue')
 	 *********************************************************/
     public attr(...args): string | Barix {
-        let attrName: string;
-        let attrValue: string;
-        //if it is get
-        if (args.length == 1) {
-            attrName = args[0];
-            return this.elems[0].getAttribute(attrName);
+        let attrJSON = {};
+        //if it is a get request
+        if (args.length == 1 && typeof(args[0]) === "string") {
+            return this.elems[0].getAttribute(args[0]);
         }
-        //if it is set
+
+        //if it is set request with multiple (key, value) as JSON
+        if (args.length == 1 && typeof (args[0]) === "object") {
+            attrJSON = args[0];            
+        }
+
+        //if it is set request with single (key, value)
         else if (args.length == 2) {
-            attrName = args[0];
-            attrValue = args[1];
-            for (let i in this.elems) {
-                this.elems[i].setAttribute(attrName, attrValue);
-            }
-            return this;
+            attrJSON[args[0]] = args[1];     
         }
+
+        else {
+            var info = 'Barix: attr() method can be called in 3 ways \n 1. attr("attributeName") \n 2. attr("name", "value") \n 3. attr({"name1": "value1", "name2": "value2"....})';
+            throw info;
+        }
+
+        //loop thru all the elements and then all the attributes
+        for (let i in this.elems) {
+            for (let key in attrJSON) {
+                this.elems[i].setAttribute(key, attrJSON[key]);
+            }
+        }       
+
+        return this;
     }
     ///////////////////////////////////////////////////////////
+
+
+    /***********************************************************
+    * .css({styleNameValuePairObject})
+    ***********************************************************/
+    public css(...args): string | Barix {
+        let styleObj: any = {};
+
+        //if it is a get request
+        if (args.length == 1 && typeof (args[0]) === "string") {
+            return (this.elems[0] as HTMLElement).style[args[0]];
+        }
+
+        //if style is provided as json object
+        if (args.length == 1 && typeof (args[0]) === "object") {
+            styleObj = args[0];
+        }
+
+        //if style is provided as (name,value)
+        else if (args.length == 2) {
+            styleObj[args[0]] = args[1];
+        }       
+
+        else {
+            var e = 'Barix: css style can be provided as single (name,value) pair or as a json object.'
+            throw e;
+        }
+
+        for (let i in this.elems) {
+            for (let key in styleObj) {
+                (this.elems[i] as HTMLElement).style[key] = styleObj[key];
+            }
+        }
+        return this;
+    }
+    /////////////////////////////////////////////////////////////
 
 	
 	/**********************************************************
@@ -209,37 +258,7 @@ class Barix {
     }
     ////////////////////////////////////////////////////////////
 
-
-    /***********************************************************
-    * .css({styleNameValuePairObject})
-    ***********************************************************/
-    public css(...args): Barix {
-        let el: HTMLElement;
-        let styleObj: any;
         
-        if (args.length == 2) {             //if style is provided as (name,value)
-            styleObj = {};
-            styleObj[args[0]] = args[1];
-        }
-        else if (args.length == 1) {        //if style is provided as json object
-            styleObj = args[0];
-        }
-        else {
-            var e = 'Barix: css style can be provided as single (name,value) pair or as a json object.'
-            throw e;
-        }
-        for (let i in this.elems) {
-            el = this.elems[i] as HTMLElement;
-            for (let key in styleObj) {
-                el.style[key] = styleObj[key];
-            }
-        }
-        return this;
-    }
-    /////////////////////////////////////////////////////////////
-
-
-
     /***********************************************************
     * .on
     ***********************************************************/
