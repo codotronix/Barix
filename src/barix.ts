@@ -19,9 +19,14 @@ class Barix {
 	/**********************************************************
 	 * a jquery like selector
 	 *********************************************************/
-	public static select (selector: string | Node | Function) : Barix {
+	public static select (selector: string | Node | Function) : Barix | any {
 		let elems:Array<Element> = new Array<Element>();
-        
+
+        //if selector is empty return the Barix class itself to make static calls easier
+        if (typeof (selector) == "undefined") {
+            return Barix;
+        }
+
         //if bx(function(){}) is used as document ready
         if (selector && typeof (selector) == "function") {
             Barix.prototype["onReadyFnQueue"] = Barix.prototype["onReadyFnQueue"] || [];
@@ -244,6 +249,37 @@ class Barix {
     }
     ///////////////////////////////////////////////////////////
 
+    /**********************************************************
+	 * .hide() - it saves the displayValue as attr to use in .show()
+	 *********************************************************/
+    public hide(): Barix {
+        let displayValue: string;
+        for (let i in this.elems) {
+            displayValue = (this.elems[i] as HTMLElement).style.display;
+            if (displayValue) {
+                (this.elems[i] as HTMLElement).setAttribute("barix-internal-oldDiplayVal", displayValue);
+            }            
+            (this.elems[i] as HTMLElement).style.display = "none";
+        }
+        return this;
+    }
+    ///////////////////////////////////////////////////////////
+
+
+    /**********************************************************
+	 * .show(displayValue?)
+	 *********************************************************/
+    public show(dispVal:string): Barix {
+        let displayValue: string;
+        for (let i in this.elems) {            
+            displayValue = dispVal || (this.elems[i] as HTMLElement).getAttribute("barix-internal-oldDiplayVal") || "block";
+            (this.elems[i] as HTMLElement).style.display = displayValue;
+        }
+        return this;
+    }
+    ///////////////////////////////////////////////////////////
+
+
 
 	/**********************************************************
 	 * .each(callback)
@@ -379,7 +415,7 @@ class Barix {
     /***********************************************************
     * List to Array Converter
     ***********************************************************/
-    static ListToArray(list: any) {
+    public static ListToArray(list: any) {
         let arr: any = [];
         for (let i = 0; i < list.length; i++) {
             arr.push(list[i]);
@@ -388,9 +424,21 @@ class Barix {
     }
     ////////////////////////////////////////////////////////////
 
-
-
-
+    public static get(url: string, success: Function, error: Function) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    success(xhttp.responseText);
+                }
+                else if (xhttp.status == 400) {
+                    error(xhttp.responseText);
+                }                
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
 }
 
 var bx = Barix.select;
