@@ -405,12 +405,17 @@ class Barix {
 
 
     /***********************************************************
-    * .addFunc("funcName", Function) to extend functionality of Barix
+    * .addFunc("funcName", Function, isStatic) to extend functionality of Barix
     ***********************************************************/
-    public static addFunc(funcName: string, func: Function) {
-        Barix.prototype[funcName] = func;
+    public static addFunc(funcName: string, func: Function, isStatic?:boolean) {
+        if(isStatic) {
+			Barix[funcName] = func;
+		} else {
+			Barix.prototype[funcName] = func;
+		}		
     }
 	////////////////////////////////////////////////////////////
+
 
     /***********************************************************
     * List to Array Converter
@@ -440,5 +445,4 @@ class Barix {
         xhttp.send();
     }
 }
-
 var bx = Barix.select;
